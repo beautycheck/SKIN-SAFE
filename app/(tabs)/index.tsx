@@ -1,98 +1,223 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import {
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const router = useRouter();
+  const username = "OnSkinuser_mqiu4";
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const handleLocationRequest = () => {
+    Alert.alert(
+      'Konum Erişimi',
+      'Bulunduğunuz bölgedeki UV indeksini öğrenmek için lütfen ayarlardan konum erişimine izin verin.',
+      [
+        { text: 'İptal', style: 'cancel' },
+        { text: 'Ayarlar', onPress: () => console.log('Ayarlara yönlendir') }
+      ]
+    );
+  };
+
+  const handleCreateRoutine = () => {
+    router.push('/(tabs)/skincare-routine' as any);
+  };
+
+  const handleScanner = () => {
+    router.push('/(tabs)/scanner' as any);
+  };
+
+  const handleSearch = () => {
+    router.push('/(tabs)/search' as any);
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        {/* Hoş Geldiniz Bölümü */}
+        <View style={styles.welcomeSection}>
+          <Text style={styles.welcomeText}>Merhaba,</Text>
+          <Text style={styles.username}>{username}!</Text>
+        </View>
+
+        {/* UV Index Bölümü */}
+        <TouchableOpacity style={styles.uvCard} onPress={handleLocationRequest}>
+          <Ionicons name="sunny" size={24} color="#FF9500" />
+          <View style={styles.uvTextContainer}>
+            <Text style={styles.uvTitle}>UV İndeksi Bilinmiyor</Text>
+            <Text style={styles.uvDescription}>
+              Bölgenizdeki UV indeksini öğrenmek için lütfen Ayarlar'dan konum erişimine izin verin.
+            </Text>
+          </View>
+          <Ionicons name="chevron-forward" size={20} color="#8E8E93" />
+        </TouchableOpacity>
+
+        {/* Cilt Bakım Rutini Bölümü */}
+        <View style={styles.routineSection}>
+          <Text style={styles.sectionTitle}>Cilt Bakım Rutinin</Text>
+          <Text style={styles.sectionSubtitle}>
+            Cildine hak ettiği özeni göster!
+          </Text>
+          <TouchableOpacity style={styles.createButton} onPress={handleCreateRoutine}>
+            <Text style={styles.createButtonText}>Şimdi Oluştur</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Keşfet Bölümü */}
+        <View style={styles.exploreSection}>
+          <Text style={styles.sectionTitle}>Keşfet</Text>
+          
+          <TouchableOpacity style={styles.exploreCard} onPress={handleScanner}>
+            <View style={styles.exploreIconContainer}>
+              <Ionicons name="scan" size={24} color="#007AFF" />
+            </View>
+            <View style={styles.exploreTextContainer}>
+              <Text style={styles.exploreTitle}>Tarayıcı</Text>
+              <Text style={styles.exploreDescription}>
+                Fotoğraf veya barkod ile ürün analizi yapın.
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#8E8E93" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.exploreCard} onPress={handleSearch}>
+            <View style={styles.exploreIconContainer}>
+              <Ionicons name="search" size={24} color="#007AFF" />
+            </View>
+            <View style={styles.exploreTextContainer}>
+              <Text style={styles.exploreTitle}>Arama</Text>
+              <Text style={styles.exploreDescription}>
+                Bir ürün yazın ve cildinize uygun olup olmadığını görün.
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#8E8E93" />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  welcomeSection: {
+    padding: 20,
+    paddingBottom: 10,
+  },
+  welcomeText: {
+    fontSize: 16,
+    color: '#666666',
+  },
+  username: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginTop: 4,
+  },
+  uvCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    backgroundColor: '#F8F8F8',
+    margin: 20,
+    marginTop: 10,
+    padding: 16,
+    borderRadius: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: '#FF9500',
   },
-  stepContainer: {
-    gap: 8,
+  uvTextContainer: {
+    flex: 1,
+    marginLeft: 12,
+    marginRight: 8,
+  },
+  uvTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#000000',
+    marginBottom: 4,
+  },
+  uvDescription: {
+    fontSize: 14,
+    color: '#666666',
+    lineHeight: 18,
+  },
+  routineSection: {
+    backgroundColor: '#007AFF',
+    margin: 20,
+    padding: 20,
+    borderRadius: 16,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  sectionSubtitle: {
+    fontSize: 14,
+    color: '#FFFFFF',
+    opacity: 0.9,
+    marginBottom: 16,
+  },
+  createButton: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+  },
+  createButtonText: {
+    color: '#007AFF',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  exploreSection: {
+    padding: 20,
+  },
+  exploreCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#E5E5EA',
+  },
+  exploreIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: '#F0F8FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  exploreTextContainer: {
+    flex: 1,
+  },
+  exploreTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#000000',
+    marginBottom: 4,
+  },
+  exploreDescription: {
+    fontSize: 14,
+    color: '#666666',
+    lineHeight: 18,
   },
 });
