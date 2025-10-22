@@ -8,9 +8,16 @@
     "scheme": "skinsafefrontend",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "SkinSafe uygulamasının barkod tarama için kameranıza erişmesine izin verin.",
+        "NSPhotoLibraryUsageDescription": "SkinSafe uygulamasının galerinizden resim seçmesine izin verin.",
+        "NSMicrophoneUsageDescription": "SkinSafe uygulamasının videolar için mikrofona erişmesine izin verin."
+      }
     },
+    
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -19,12 +26,22 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
+    
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
+    
     "plugins": [
       "expo-router",
       [
@@ -38,8 +55,31 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "SkinSafe uygulamasının barkod tarama için kameranıza erişmesine izin verin.",
+          "microphonePermission": "SkinSafe uygulamasının videolar için mikrofona erişmesine izin verin.",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "SkinSafe uygulamasının galerinizden resim seçmesine izin verin.",
+          "cameraPermission": "SkinSafe uygulamasının kamera ile resim çekmesine izin verin.",
+          "saveToPhotos": true
+        }
+      ],
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "SkinSafe uygulamasının barkod tarama için kameranıza erişmesine izin verin."
+        }
       ]
     ],
+    
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
