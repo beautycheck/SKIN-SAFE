@@ -119,7 +119,7 @@ export default function RegisterScreen() {
           </Text>
 
           <Text style={styles.modalNote}>
-            Son güncelleme: 15 Ocak 2024{'\n'}
+            Son güncelleme: 23 Ekim 2025{'\n'}
             Sorularınız için: privacy@skinsafe.com
           </Text>
         </ScrollView>
@@ -171,7 +171,7 @@ export default function RegisterScreen() {
           </Text>
 
           <Text style={styles.modalNote}>
-            Son güncelleme: 15 Ocak 2024{'\n'}
+            Son güncelleme: 23 Ekim 2025{'\n'}
             İletişim: legal@skinsafe.com
           </Text>
         </ScrollView>
